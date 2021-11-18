@@ -1,13 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useRef } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import LoginAuto from './src/auth/login/auto';
+import Login from './src/auth/login';
+import Cadastro from './src/auth/cadastro';
+import Home from './src/home';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function App() {
+
+  const Stack = createNativeStackNavigator();
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#ff6600',
+          },
+          headerTitleAlign: 'center',
+        }}
+        >
+        <Stack.Screen
+          name="LoginAuto"
+          component={LoginAuto}
+        />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerBackVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="Cadastro"
+          component={Cadastro}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            title: 'Restaurante',
+            headerBackVisible: false,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
