@@ -31,6 +31,7 @@ export default function Login({ navigation }){
                 } else {
                     setMensagem(null);
                     try{
+                        await AsyncStorage.setItem("id", JSON.stringify(json.id));
                         await AsyncStorage.setItem("telefone", json.telefone);
                         await AsyncStorage.setItem("senha", json.senha);
                         navigation.navigate("Home");

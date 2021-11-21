@@ -10,14 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Pedido.belongsTo(models.ClienteMesa);
-      Pedido.belongsTo(models.PedidoProduto);
+      Pedido.hasMany(models.PedidoProduto);
+      Pedido.belongsTo(models.Cliente);
     }
   };
   Pedido.init({
-    horario: DataTypes.DATE,
     status: DataTypes.STRING,
-    clienteMesaId: DataTypes.INTEGER
+    mesa: DataTypes.INTEGER,
+    clienteId: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Pedido',

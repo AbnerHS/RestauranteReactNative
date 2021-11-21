@@ -1,12 +1,11 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StyleSheet, TouchableOpacity } from 'react-native';
 import LoginAuto from './src/auth/login/auto';
 import Login from './src/auth/login';
 import Cadastro from './src/auth/cadastro';
 import Home from './src/home';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Tabs from './src/tabs';
 
 export default function App() {
 
@@ -24,6 +23,7 @@ export default function App() {
         >
         <Stack.Screen
           name="LoginAuto"
+          options={{headerShown: false}}
           component={LoginAuto}
         />
         <Stack.Screen
@@ -39,22 +39,10 @@ export default function App() {
         />
         <Stack.Screen
           name="Home"
-          component={Home}
-          options={{
-            title: 'Restaurante',
-            headerBackVisible: false,
-          }}
+          component={Tabs}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

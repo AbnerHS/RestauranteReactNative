@@ -29,16 +29,15 @@ export default function Cadastro({ navigation }){
                         })
                     }
                 );
-                let json = await response.json();
-                if(json == 'ok'){
-                    setMensagem(null);
-                    try {
-                        await AsyncStorage.setItem('telefone', telefone)
-                        await AsyncStorage.setItem('senha', senha);
-                        navigation.navigate("Home");
-                    } catch(e){
-                        console.log(e);
-                    }
+                let id = await response.json();
+                setMensagem(null);
+                try {
+                    await AsyncStorage.setItem('id', id);
+                    await AsyncStorage.setItem('telefone', telefone);
+                    await AsyncStorage.setItem('senha', senha);
+                    navigation.navigate("Home");
+                } catch(e){
+                    console.log(e);
                 }
             } else {
                 setMensagem('Preencha todos os campos!');    

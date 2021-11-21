@@ -8,20 +8,22 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      horario: {
-        type: Sequelize.DATE
+      mesa: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
       },
       status: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
       },
-      clienteMesaId: {
+      clienteId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'clientemesas',
+          model: 'clientes',
           key: 'id'
         },
         onUpdate: 'cascade',
-        onDelete: 'cascade'
+        onDelete: 'cascade',
       },
       createdAt: {
         allowNull: false,

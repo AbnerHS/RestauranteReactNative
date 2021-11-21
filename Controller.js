@@ -9,6 +9,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 let cliente = models.Cliente;
 let produto = models.Produto;
+let pedido = models.Pedido;
+let pedidoProduto = models.PedidoProduto;
+
 
 app.post('/cadastro', async(req, res) => {
     let insert = await cliente.create({ 
@@ -16,7 +19,7 @@ app.post('/cadastro', async(req, res) => {
         telefone: req.body.telefone,
         senha: req.body.senha
     });
-    res.send(JSON.stringify(value='ok'));
+    res.send(JSON.stringify(insert.id));
 });
 
 app.post('/login', async(req, res) => {
@@ -32,6 +35,53 @@ app.post('/login', async(req, res) => {
 
 app.get('/produtos', async(req, res) => {
     let query = await produto.findAll();
+    res.send(query);
+});
+
+app.post('/enviarPedido', async(req, res) => {
+    let queryPedido = await pedido.create({
+        clienteId: req.body.id,
+        mesa: req.body.mesa,
+        status: 'Pendente',
+    });
+    let idPedido = queryPedido.id;
+    req.body.items.forEach(async (item) => {
+        let produto = await pedidoProduto.create({
+            pedidoId: idPedido,
+            produtoId: item
+        });
+    });
+    res.send(JSON.stringify("ok"));
+});
+
+app.post('/carrinho', async(req, res) => {
+    let query = await produto.findAll({
+        where: {
+            id: req.body.items
+        }
+    });
+    res.send(query);
+});
+
+app.post('/pedidos', async(req, res) => {
+    let query = await pedido.findAll({
+        where: {
+            clienteId: req.body.id
+        }
+    });
+    res.send(query);
+});
+
+app.post('/produtosPedido', async(req, res) => {
+    let query = await produto.findAll({
+        include: [{
+            model: pedidoProduto,
+            required: true,
+            where: {
+                pedidoId: req.body.id
+            }
+        }]
+    });
     res.send(query);
 })
 
