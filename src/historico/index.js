@@ -75,8 +75,28 @@ export default function Historico({ navigation }){
             />
         );
     }
-
+    
+    function tempo (item){
+        let saida, min, hora, dia, mes;
+        min = parseInt(Math.abs(new Date()-new Date(item.createdAt))/(1000*60));
+        saida = min+" minuto(s)";
+        if(min > 59){
+            hora = parseInt(min/60);
+            saida = hora+" hora(s)";
+        }
+        if(hora > 23){
+            dia = parseInt(hora/24);
+            saida = dia+" dia(s)";
+        }
+        if(dia > 30){
+            mes = parseInt(dia/30);
+            saida = mes+" mês(es)";
+        }
+        return saida;
+    }
+    let t;
     const Pedido = ({ item }) => (
+        t = tempo(item),
         <View style={styles.viewPedido}>
             <TouchableOpacity
                 onPress={()=>{
@@ -90,9 +110,7 @@ export default function Historico({ navigation }){
                 }}
             > 
             <View style={styles.containerPedido}>
-                <Text style={styles.textoPedido}>{
-                    parseInt(Math.abs(new Date()-new Date(item.createdAt))/(1000*60))
-                } minuto(s)</Text>
+                <Text style={styles.textoPedido}>{t}</Text>
                 <Text style={styles.textoPedido}>Mesa: {item.mesa}</Text>
                 <Text style={styles.textoPedido}>{item.status}</Text>
             </View>
@@ -117,7 +135,7 @@ export default function Historico({ navigation }){
 
     return (
         <View style={styles.container}>
-            {pedidos.length == 0 &&
+            {pedidos && pedidos.length == 0 &&
             <View style={{height:'100%', justifyContent: 'center'}}>
                 <Text style={[styles.nomeProduto,{alignSelf: 'center'}]}>Você ainda não fez nenhum pedido!</Text>
             </View>

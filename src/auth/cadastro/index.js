@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFocusEffect } from "@react-navigation/native";
 import React, { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View} from "react-native";
 import url from '../../utils/url.js';

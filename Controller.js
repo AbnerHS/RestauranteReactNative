@@ -54,13 +54,21 @@ app.post('/enviarPedido', async(req, res) => {
     res.send(JSON.stringify("ok"));
 });
 
+
 app.post('/carrinho', async(req, res) => {
-    let query = await produto.findAll({
-        where: {
-            id: req.body.items
-        }
-    });
-    res.send(query);
+    let carrinho = []
+    if(req.body.items){
+        carrinho = await Promise.all(req.body.items.map(async(item, index) => {
+            let query = await produto.findOne({
+                where: {
+                    id: item
+                }
+            });
+            return {item: query, index: index};
+        }));
+    }
+    console.log(carrinho);
+    res.send(carrinho);
 });
 
 app.post('/pedidos', async(req, res) => {

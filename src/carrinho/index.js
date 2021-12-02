@@ -38,12 +38,12 @@ export default function Carrinho({navigation}){
         }   
     }
 
-    async function removerCarrinho(id){
+    async function removerCarrinho(index){
         try{
             let items = await AsyncStorage.getItem("carrinho");
             items = JSON.parse(items);
-            items = items.filter(function(itemId){ 
-                return itemId != id; 
+            items = items.filter(function(itemId, i){ 
+                return i != index; 
             });
             await AsyncStorage.setItem("carrinho", JSON.stringify(items));
             getCarrinho();
@@ -94,7 +94,7 @@ export default function Carrinho({navigation}){
     },[navigation]);
 
 
-    const Produto = ({ item }) => (
+    const Produto = ({ item, index}) => (
         <View style={styles.viewProduto}> 
             <Image style={styles.imagemProduto} source={{uri: `${item.imagem}`}}/> 
             <View style={styles.textoProduto}>
@@ -103,7 +103,7 @@ export default function Carrinho({navigation}){
             </View>
             <View style={styles.iconeProduto}>
                 <TouchableOpacity
-                    onPress={()=>removerCarrinho(item.id)}
+                    onPress={()=>removerCarrinho(index)}
                 >
                     <Icon name="close-outline" size={30} color='white'/>
                 </TouchableOpacity>
@@ -114,7 +114,8 @@ export default function Carrinho({navigation}){
     const renderCarrinho = ({ item }) => {
         return (
             <Produto
-                item={item}
+                item={item.item}
+                index={item.index}
                 style={{width: '100%'}}
             />
         );
@@ -131,6 +132,7 @@ export default function Carrinho({navigation}){
                 style={{width: '100%'}}
                 data={carrinho}
                 renderItem={renderCarrinho}
+                keyExtractor={(item) => item.index}
             />
             <View>
                 {carrinho.length > 0 && 
@@ -141,7 +143,7 @@ export default function Carrinho({navigation}){
                                 setVisible(true)
                                 var valorTotal = 0;
                                 carrinho.forEach((item) => {
-                                    valorTotal += item.valor;
+                                    valorTotal += item.item.valor;
                                 })
                                 setTotal(valorTotal);
                             }}
