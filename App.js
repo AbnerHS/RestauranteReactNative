@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginAuto from './src/auth/login/auto';
 import Login from './src/auth/login';
 import Cadastro from './src/auth/cadastro';
-import Home from './src/home';
 import Tabs from './src/tabs';
 
 export default function App() {

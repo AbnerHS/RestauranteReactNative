@@ -31,7 +31,7 @@ export default function Cadastro({ navigation }){
                 let id = await response.json();
                 setMensagem(null);
                 try {
-                    await AsyncStorage.setItem('id', id);
+                    await AsyncStorage.setItem('id', JSON.stringify(id));
                     await AsyncStorage.setItem('telefone', telefone);
                     await AsyncStorage.setItem('senha', senha);
                     navigation.navigate("Home");

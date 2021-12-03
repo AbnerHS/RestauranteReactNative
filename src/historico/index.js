@@ -5,6 +5,9 @@ import Dialog from "react-native-dialog";
 import Linha from "../utils/linha";
 import url from '../utils/url';
 import styles from './style';
+import io from 'socket.io-client';
+
+const socket = io(url);
 
 export default function Historico({ navigation }){
 
@@ -48,6 +51,7 @@ export default function Historico({ navigation }){
             }
         );
         let json = await response.json();
+        // console.log(json);
         setProdutos(json);
     }
 
@@ -55,9 +59,12 @@ export default function Historico({ navigation }){
         navigation.addListener('focus', () => {
             getPedidos();
         });
-    },[navigation]);
+        socket.on('novoStatus', getPedidos);
+        return () => socket.off('novoStatus');
+    },[]);
 
     const Produto = ({ item }) => (
+        item = item[0],
         <View style={styles.viewProduto}> 
             <Image style={styles.imagemProduto} source={{uri: `${item.imagem}`}}/> 
             <View style={styles.textoProduto}>
@@ -70,7 +77,7 @@ export default function Historico({ navigation }){
     const renderProdutos = ({ item }) => {
         return (
             <Produto
-                item={item}
+                item={item.item}
                 style={{width: '100%'}}
             />
         );
@@ -94,9 +101,21 @@ export default function Historico({ navigation }){
         }
         return saida;
     }
-    let t;
+
+    function status(item){
+        if(item.status == 0)
+            return 'Pendente';
+        else if(item.status == 1)
+            return 'Em preparação';
+        else if(item.status == 2)
+            return 'Finalizado';
+    }
+
+    let t,s;
+    
     const Pedido = ({ item }) => (
         t = tempo(item),
+        s = status(item),
         <View style={styles.viewPedido}>
             <TouchableOpacity
                 onPress={()=>{
@@ -112,12 +131,13 @@ export default function Historico({ navigation }){
             <View style={styles.containerPedido}>
                 <Text style={styles.textoPedido}>{t}</Text>
                 <Text style={styles.textoPedido}>Mesa: {item.mesa}</Text>
-                <Text style={styles.textoPedido}>{item.status}</Text>
+                <Text style={styles.textoPedido}>{s}</Text>
             </View>
             {produtos.length > 0 && index == item.id &&
                 <FlatList
                     data={produtos}
                     renderItem={renderProdutos}
+                    keyExtractor={(item)=>item.index}
                 />
             }
             </TouchableOpacity>

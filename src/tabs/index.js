@@ -169,7 +169,7 @@ export default function Tabs({navigation}) {
                 }}>
                 <Tab.Screen
                     options={{
-                        headerTitle: 'Restaurante',
+                        headerTitle: 'Cardápio',
                         tabBarIcon: ({color, size}) => (
                             <Icon name="list-outline" color={color} size={size} />
                         )

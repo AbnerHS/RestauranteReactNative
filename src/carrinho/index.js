@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Dialog from 'react-native-dialog';
 import Icon from "react-native-vector-icons/Ionicons";
-
 import url from "../utils/url";
 import styles from "./style";
+import io from 'socket.io-client';
+
+const socket = io(url);
 
 export default function Carrinho({navigation}){
     const [carrinho, setCarrinho] = useState([]);
@@ -75,6 +77,7 @@ export default function Carrinho({navigation}){
                 setCarrinho([]);
                 getCarrinho();
                 setVisible(false);
+                socket.emit('pedido');
             }
         } catch (e){
             console.log(e);
