@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Pedido.init({
-    status: DataTypes.STRING,
+    status: DataTypes.INTEGER,
     mesa: DataTypes.INTEGER,
     clienteId: DataTypes.INTEGER,
   }, {

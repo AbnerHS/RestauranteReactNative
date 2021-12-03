@@ -172,7 +172,6 @@ app.post('/produtosPedido', async(req, res) => {
                     id: item.id
                 }
             }],
-            // attributes: ['nome','valor','categoria']
         });
         return {item: query, index: index};
     }));

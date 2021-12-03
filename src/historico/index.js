@@ -1,8 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View, BackHandler, FlatList, Image, ScrollView, LogBox, Modal, TextInput} from "react-native";
-import Dialog from "react-native-dialog";
-import Linha from "../utils/linha";
+import { Text, TouchableOpacity, View, FlatList, Image} from "react-native";
 import url from '../utils/url';
 import styles from './style';
 import io from 'socket.io-client';
@@ -51,7 +49,6 @@ export default function Historico({ navigation }){
             }
         );
         let json = await response.json();
-        // console.log(json);
         setProdutos(json);
     }
 

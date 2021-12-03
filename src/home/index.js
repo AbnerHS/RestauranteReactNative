@@ -146,7 +146,6 @@ export default function Home({ navigation }){
                             <TextInput
                                 onChangeText={setMesa}
                                 style={styles.inputMesa}
-                                placeholder="Exemplo: 1"
                                 keyboardType="number-pad"    
                             />
                             <TouchableOpacity style={styles.botaoModal}
